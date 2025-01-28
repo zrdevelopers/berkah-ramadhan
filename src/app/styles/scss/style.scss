@@ -522,13 +522,21 @@ header {
   body {
     font-size: 14px; /* Ukuran untuk perangkat mobile */
   }
+}
+
+@media screen and (max-width: 299px) {
   .recipe-card img {
-    height: 18.4rem; // 17rem;
+    height: 12.4rem;
   }
 }
 
+@media screen and (min-width: 300px) and (max-width: 310px) {
+  .recipe-card img {
+    height: 13rem;
+  }
+}
 
-@media screen and (max-width: 320px) {
+@media screen and (min-width: 311px) and (max-width: 320px) {
   .recipe-card img {
     height: 13.4rem;
   }
@@ -537,6 +545,17 @@ header {
 @media screen and (min-width: 321px) and (max-width: 375px) {
   .recipe-card img {
     height: 16.4rem;
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 424px) {
+  .recipe-card img {
+    height: 16.4rem; // 17rem;
+  }
+}
+@media screen and (min-width: 425px) and (max-width: 480px) {
+  .recipe-card img {
+    height: 18.4rem; // 17rem;
   }
 }
 // @media screen and (max-width: 320px) {
