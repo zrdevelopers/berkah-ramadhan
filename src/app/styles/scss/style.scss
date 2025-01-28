@@ -523,10 +523,22 @@ header {
     font-size: 14px; /* Ukuran untuk perangkat mobile */
   }
   .recipe-card img {
-    height: 13.4rem; // 17rem;
+    height: 18.4rem; // 17rem;
   }
 }
 
+
+@media screen and (max-width: 320px) {
+  .recipe-card img {
+    height: 13.4rem;
+  }
+}
+
+@media screen and (min-width: 321px) and (max-width: 375px) {
+  .recipe-card img {
+    height: 16.4rem;
+  }
+}
 // @media screen and (max-width: 320px) {
 //   .recipe-card {
 //     width: 290px;
