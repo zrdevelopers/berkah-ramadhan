@@ -12,7 +12,7 @@ const Index = () => {
             <img src={domain + '/assets/images/vandz15.png'} alt="Logo" className="brand-img" />
           </Link>
           <ul className="nav-list">
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link
                 target="_blank"
                 className="nav-link"
@@ -20,8 +20,29 @@ const Index = () => {
               >
                 WhatsApp kami
               </Link>
+            </li> */}
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                href="/"
+              >
+                Produk
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link selected"
+                href="/keranjang"
+              >
+                Keranjang Belanja
+              </Link>
+              <span className="favorite-counter">
+                0
+                {/* {recipes.length && recipes.length} */}
+              </span>
             </li>
           </ul>
+
         </nav>
       </div>
     </header>
