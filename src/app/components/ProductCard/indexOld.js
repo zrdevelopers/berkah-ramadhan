@@ -4,17 +4,12 @@ import { Fragment, useState } from 'react';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
-import { useDispatch } from 'react-redux';
-import { addToCart } from '@/app/redux/action/keranjangs/creator';
-
 const ProductCard = (props) => {
   const { product, styles, handleFormWhatsApp } = props;
 
   const [varians, setVarian] = useState(null);
   const [quantity, setQuantity] = useState(1); // Default quantity
   const domain = process.env.NEXT_PUBLIC_DOMAIN; // Access the environment variable
-
-  const dispatch = useDispatch();
 
   const handleVarian = (ID) => {
     const selectedVarian = product?.varian?.find((varian) => varian?.id === ID);
@@ -48,22 +43,6 @@ const ProductCard = (props) => {
       return Math.round(((normalPrice - currentPrice) / normalPrice) * 100);
     }
     return 0;
-  };
-
-  const handleAddToCart = (e, product, variant, quantity) => {
-    e.preventDefault();
-    if (variant) {
-      const products = {
-        id: product?.id,
-        id_kategori: product?.id_kategori,
-        images: product?.images,
-        link_shopee: product?.link_shopee,
-        link_wa: product?.link_wa,
-        name: product?.name,
-        quantity: product?.quantity
-      };
-      dispatch(addToCart(products, variant, quantity));
-    }
   };
 
   // First variant
@@ -276,8 +255,7 @@ const ProductCard = (props) => {
                   <button
                     className="btn btn-primary"
                     style={{ marginTop: '2rem' }}
-                    // onClick={(e) => handleFormWhatsApp(e, product, varians, quantity)}
-                    onClick={(e) => handleAddToCart(e, product, varians, quantity)}
+                    onClick={(e) => handleFormWhatsApp(e, product, varians, quantity)}
                     disabled={
                       product?.varian?.find((v) => v.id === varians?.id) ||
                       product?.varian?.every((v) => v?.stok === 0)
@@ -287,7 +265,7 @@ const ProductCard = (props) => {
                   >
                     {product?.varian[0]?.stok > 0 &&
                     product?.varian?.find((v) => v.id === varians?.id)
-                      ? 'Tambah ke Keranjang'
+                      ? 'Pesan via WhatsApp'
                       : 'Pilih Varian (size)'}
                   </button>
                 )}
