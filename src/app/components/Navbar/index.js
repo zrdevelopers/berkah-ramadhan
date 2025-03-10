@@ -80,12 +80,12 @@ const Index = () => {
                   onMouseLeave={() => setIsCartOpen(false)}
                 >
                   <div className="cart-items">
-                    {displayedItems.length > 0 ? (
-                      displayedItems.map((item) => (
-                        <div className="cart-item" key={item?.id}>
-                          <img src={item.images} alt={item.name} className="cart-item-image" />
+                    {displayedItems?.length > 0 ? (
+                      displayedItems?.map((item, idx) => (
+                        <div className="cart-item" key={idx || item?.id}>
+                          <img src={item.images} alt={item?.name} className="cart-item-image" />
                           <div className="cart-item-info">
-                            <p className="cart-item-name">{item.name}</p>
+                            <p className="cart-item-name">{item?.name}</p>
                             <h4 className="cart-item-price">
                               <small>Rp</small> {item.variant?.harga?.toLocaleString('id-ID')}{' '}
                               <small
