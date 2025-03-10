@@ -4,8 +4,7 @@
 // import RecipeList from "../components/RecipeList";
 // import noDataImg from "../images/no-data.svg";
 
-const Index = () => {
-
+const KeranjangPage = () => {
   return (
     <section className="bookmarks">
       <div className="container">
@@ -31,4 +30,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default KeranjangPage;

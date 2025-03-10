@@ -22,27 +22,17 @@ const Index = () => {
               </Link>
             </li> */}
             <li className="nav-item">
-              <Link
-                className="nav-link"
-                href="/"
-              >
+              <Link className="nav-link" href="/">
                 Produk
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                className="nav-link selected"
-                href="/keranjang"
-              >
+              <Link className="nav-link selected" href="/keranjang">
                 Keranjang Belanja
               </Link>
-              <span className="favorite-counter">
-                0
-                {/* {recipes.length && recipes.length} */}
-              </span>
+              <span className="favorite-counter">0{/* {recipes.length && recipes.length} */}</span>
             </li>
           </ul>
-
         </nav>
       </div>
     </header>

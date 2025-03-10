@@ -2,17 +2,12 @@
 
 import React, { Fragment, useEffect, useState, useRef, useMemo } from 'react';
 
-import Navbar from '@/app/components/Navbar';
 import SearchBar from '@/app/components/SearchBar';
 import SearchResults from '@/app/components/SearchResults';
 import ProductList from '@/app/components/ProductList';
 import ProductTerlaris from '@/app/components/ProductTerlaris';
-import Footer from '@/app/components/Footer';
-
-import { FloatingWhatsApp } from 'react-floating-whatsapp';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getListFloatingWhatsapp } from '@/app/redux/action/floatingWhatsapp/creator';
 import { getListProducts, getTerlarisProducts } from '@/app/redux/action/products/creator';
 import { getListKategoris } from '@/app/redux/action/kategoris/creator';
 
@@ -20,8 +15,8 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'; // Impor CSS untuk animasi
 
 // modals
-import FormWhatsAppModal from '@/app/pages/Beranda/modals/formWhatsApp';
-import TerimaKasihModal from '@/app/pages/Beranda/modals/terimaKasih';
+import FormWhatsAppModal from '@/app/beranda/modals/formWhatsApp';
+import TerimaKasihModal from '@/app/beranda/modals/terimaKasih';
 
 export default function Index() {
   const searchResultsRef = useRef();
@@ -49,15 +44,10 @@ export default function Index() {
     html.classList.remove('scroll-smooth');
   };
 
-  const floatingWhatsAppList = useSelector((state) => state.floatingWhatsapp.floatingWhatsappList);
-  const productList = useSelector((state) => state.products.productsList);
-  const productTerlaris = useSelector((state) => state.products.productsTerlaris);
-  const kategoriList = useSelector((state) => state.kategoris.kategorisList);
+  const productList = useSelector((state) => state.products?.productsList);
+  const productTerlaris = useSelector((state) => state.products?.productsTerlaris);
+  const kategoriList = useSelector((state) => state.kategoris?.kategorisList);
   const dispatch = useDispatch();
-
-  const fetchFloatingWhatsApp = async () => {
-    dispatch(getListFloatingWhatsapp());
-  };
 
   const fetchProducts = async () => {
     setIsLoadingProducts(true);
@@ -143,22 +133,27 @@ export default function Index() {
     if (selectedCategory === 'all') {
       return productList.slice(0, visibleCount);
     }
-    return productList.filter((product) => product.id_kategori === selectedCategory).slice(0, visibleCount);
+    return productList
+      .filter((product) => product.id_kategori === selectedCategory)
+      .slice(0, visibleCount);
   };
-  
-  const filteredByCategory = useMemo(getFilteredProducts, [selectedCategory, productList, visibleCount]);
-  
+
+  const filteredByCategory = useMemo(getFilteredProducts, [
+    selectedCategory,
+    productList,
+    visibleCount
+  ]);
+
   const shouldShowLoadMoreButton = useMemo(() => {
     const totalProducts =
       selectedCategory === 'all'
         ? productList.length
         : productList.filter((product) => product.id_kategori === selectedCategory).length;
-  
+
     return totalProducts > visibleCount;
   }, [selectedCategory, productList, visibleCount]);
 
   useEffect(() => {
-    fetchFloatingWhatsApp();
     fetchProducts();
     fetchKategoris();
     fetchTerlarisProducts();
@@ -166,7 +161,6 @@ export default function Index() {
 
   return (
     <Fragment>
-      <Navbar />
       <section
         className="hero"
         style={{ backgroundImage: `url('/berkah-ramadhan/assets/images/bg-hero.png')` }}
@@ -277,7 +271,6 @@ export default function Index() {
           )}
         </div>
       </section>
-      <Footer />
 
       {/* Modals */}
       <FormWhatsAppModal
@@ -288,27 +281,6 @@ export default function Index() {
         quantitys={quantitys}
       />
       <TerimaKasihModal show={showTerimaKasih} onClose={() => setShowTerimaKasih(false)} />
-
-      <FloatingWhatsApp
-        avatar={floatingWhatsAppList?.avatar}
-        phoneNumber={floatingWhatsAppList?.phone_number}
-        accountName={floatingWhatsAppList?.account_name}
-        chatMessage={floatingWhatsAppList?.chat_message}
-        statusMessage={floatingWhatsAppList?.status_message}
-        darkMode={true}
-        placeholder="Ketik pesan..."
-        // allowEsc={true}
-        // allowClickAway
-        // notification
-        // notificationDelay={60000} // 1 minute
-        // notificationSound
-        styles={{
-          position: 'fixed',
-          bottom: '15px',
-          height: '0px !important',
-          fontSize: '14px'
-        }}
-      />
     </Fragment>
   );
 }
