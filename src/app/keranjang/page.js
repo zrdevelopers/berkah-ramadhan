@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 const KeranjangPage = () => {
   const [cartItems, setCartItems] = useState([
-    // { id: 1, name: "Cokelat Premium", price: 25000, image: "/images/cokelat.png", quantity: 1, selected: false },
-    // { id: 2, name: "Kaos Limited Edition", price: 120000, image: "/images/kaos.png", quantity: 1, selected: false },
-    // { id: 3, name: "Sepatu Sneakers", price: 350000, image: "/images/sneakers.png", quantity: 1, selected: false },
+    { id: 1, name: "Cokelat Premium", price: 25000, image: "/images/cokelat.png", quantity: 1, selected: false },
+    { id: 2, name: "Kaos Limited Edition", price: 120000, image: "/images/kaos.png", quantity: 1, selected: false },
+    { id: 3, name: "Sepatu Sneakers", price: 350000, image: "/images/sneakers.png", quantity: 1, selected: false },
   ]);
 
   // Handle Select All
@@ -60,7 +60,7 @@ const KeranjangPage = () => {
         </h2>
 
         {/* Cart Header */}
-        <div className="cart-header">
+        <div className="keranjang-header">
           <label>
             <input
               type="checkbox"
@@ -77,10 +77,10 @@ const KeranjangPage = () => {
         </div>
 
         {/* Cart Items */}
-        <div className="cart-items">
+        <div className="keranjang-items">
           {cartItems.length > 0 ? (
             cartItems.map((item) => (
-              <div className="cart-item" key={item.id}>
+              <div className="keranjang-item" key={item.id}>
                 {/* Checkbox */}
                 <label>
                   <input
@@ -92,7 +92,7 @@ const KeranjangPage = () => {
 
                 {/* Product Details */}
                 <div className="product">
-                  <img src={item.image} alt={item.name} className="cart-item-image" />
+                  <img src={item.image} alt={item.name} className="keranjang-item-image" />
                   <p>{item.name}</p>
                 </div>
 
@@ -127,7 +127,7 @@ const KeranjangPage = () => {
 
         {/* Cart Footer */}
         {cartItems.length > 0 && (
-          <div className="cart-footer">
+          <div className="keranjang-footer">
             <div className="left-section">
               {selectedCount > 0 && (
                 <button onClick={handleRemoveSelected} className="remove-selected">
@@ -138,11 +138,11 @@ const KeranjangPage = () => {
 
             <div className="right-section">
               <div className="total-price">
-                <strong>Total ({selectedCount} produk): </strong>
+                <strong>Total ({selectedCount} produk): </strong><br/>
                 <span className="rupiah">Rp {calculateTotalPrice().toLocaleString('id-ID')}</span>
               </div>
               <button className="checkout-button" disabled={selectedCount === 0}>
-                Lanjutkan ke Pembayaran
+                Lanjut Via WhatsApp
               </button>
             </div>
           </div>
