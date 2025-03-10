@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReduxProvider from '@/app/redux/provider';
-import Head from 'next/head';
-import Script from 'next/script';
+
 import '@/app/styles/scss/style.scss';
 
+import Loading from '@/app/components/Loading';
 import Heads from '@/app/components/Head';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
+
+import FloatingWhatsApp from '@/app/components/FloatingWhatsApp';
 
 export const metadata = {
   authors: [{ name: 'ZRDevelopers' }],
@@ -28,7 +30,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head></Head>
       <Heads
         title={metadata.title}
         description={metadata.description}
@@ -42,8 +43,8 @@ export default function RootLayout({ children }) {
       <body>
         <Navbar />
         <ReduxProvider>
-          {children}
-          {/* <Scripts /> */}
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+          <FloatingWhatsApp />
         </ReduxProvider>
         <Footer />
       </body>
