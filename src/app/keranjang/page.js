@@ -56,7 +56,7 @@ const KeranjangPage = () => {
     <section className="keranjang">
       <div className="container">
         <h2 className="heading-2">
-          Keranjang Belanja Kamu <span className="amount">({cartItems.length})</span>
+          Keranjang Belanja <span className="amount">({cartItems.length})</span>
         </h2>
 
         {/* Cart Header */}
