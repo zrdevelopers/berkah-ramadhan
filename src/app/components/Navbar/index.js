@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link'; // Ensure Link is imported from next/link
+import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import './cart.scss';
 
 const Index = () => {
-  const domain = process.env.NEXT_PUBLIC_DOMAIN; // Access the environment variable
+  const domain = process.env.NEXT_PUBLIC_DOMAIN;
   const pathname = usePathname();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartRef = useRef(null); // Untuk mendeteksi klik di luar dropdown
 
-  // Contoh data produk di keranjang (bisa diganti dengan state global atau props)
   const cartItems = [
     { id: 1, name: 'Cokelat Premium', price: 'Rp 25.000', image: '/images/cokelat.png' },
     { id: 2, name: 'Kaos Limited Edition', price: 'Rp 120.000', image: '/images/kaos.png' },
@@ -20,9 +20,20 @@ const Index = () => {
     { id: 6, name: 'Headphone Wireless', price: 'Rp 750.000', image: '/images/headphone.png' }
   ];
 
-  // Ambil hanya 2 item pertama untuk ditampilkan di dropdown
   const displayedItems = cartItems.slice(0, 4);
   const remainingItemsCount = cartItems.length - displayedItems.length;
+
+  // Menutup dropdown saat klik di luar area cart
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        setIsCartOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header>
@@ -37,10 +48,16 @@ const Index = () => {
                 <span className="produk-icon">🛍️</span>
               </Link>
             </li>
+            {pathname === '/keranjang' ? <li className="nav-item">
+              <Link className={`nav-link ${pathname === '/keranjang' ? 'selected' : ''}`} href="/keranjang">
+                Keranjang Saya
+              </Link>
+            </li> :
             <li
               className="nav-item cart"
+              ref={cartRef} // Gunakan ref untuk mendeteksi klik luar
               onMouseEnter={() => setIsCartOpen(true)}
-              onClick={() => setIsCartOpen(!isCartOpen)}
+              onClick={() => setIsCartOpen(true)}
             >
               <Link
                 className={`nav-link ${pathname === '/keranjang' ? 'selected' : ''}`}
@@ -51,35 +68,31 @@ const Index = () => {
               <span className="favorite-counter">{cartItems.length}</span>
 
               {/* Dropdown Produk dalam Keranjang */}
-              {isCartOpen && (
-                <div
-                className={`cart-dropdown ${isCartOpen ? 'open' : ''}`}
-                // onMouseLeave={() => setIsCartOpen(false)}
-                >
-                  <div className="cart-items">
-                    {displayedItems.map((item) => (
-                      <div className="cart-item" key={item.id}>
-                        <img src={item.image} alt={item.name} className="cart-item-image" />
-                        <div className="cart-item-info">
-                          <p className="cart-item-name">{item.name}</p>
-                          <p className="cart-item-price">{item.price}</p>
-                        </div>
+              <div className={`cart-dropdown ${isCartOpen ? 'open' : ''}`}
+              onMouseLeave={() => setIsCartOpen(false)}>
+                <div className="cart-items">
+                  {displayedItems.map((item) => (
+                    <div className="cart-item" key={item.id}>
+                      <img src={item.image} alt={item.name} className="cart-item-image" />
+                      <div className="cart-item-info">
+                        <p className="cart-item-name">{item.name}</p>
+                        <p className="cart-item-price">{item.price}</p>
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Bagian untuk menunjukkan jumlah produk lainnya */}
-                  {remainingItemsCount > 0 && (
-                    <div className="cart-footer">
-                      <p className="remaining-items">{remainingItemsCount} Produk Lainnya</p>
-                      <Link href="/keranjang" className="view-cart-button">
-                        Lihat Keranjang
-                      </Link>
                     </div>
-                  )}
+                  ))}
                 </div>
-              )}
+
+                {remainingItemsCount > 0 && (
+                  <div className="cart-footer">
+                    <p className="remaining-items">{remainingItemsCount} Produk Lainnya</p>
+                    <Link href="/keranjang" className="view-cart-button">
+                      Lihat Keranjang
+                    </Link>
+                  </div>
+                )}
+              </div>
             </li>
+            }
           </ul>
         </nav>
       </div>

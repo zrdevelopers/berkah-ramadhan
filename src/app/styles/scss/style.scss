@@ -133,7 +133,7 @@ header {
 
 .navbar .nav-list {
   display: flex;
-  align-items: baseline;
+  align-items: center;// baseline;
 }
 
 .navbar .nav-item {
@@ -615,7 +615,7 @@ header {
   }
 
   .navbar .nav-item {
-    margin-left: 2.5rem;
+    margin-left: 2rem;//2.5rem;
   }
 
   header .nav-link {
