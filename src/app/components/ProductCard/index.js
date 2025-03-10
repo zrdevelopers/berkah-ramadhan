@@ -63,6 +63,7 @@ const ProductCard = (props) => {
         quantity: product?.quantity
       };
       dispatch(addToCart(products, variant, quantity));
+      setVarian(null);
     }
   };
 

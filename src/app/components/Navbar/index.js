@@ -5,26 +5,31 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import './cart.scss';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { getListKeranjangs } from '@/app/redux/action/keranjangs/creator';
+
 const Index = () => {
   const domain = process.env.NEXT_PUBLIC_DOMAIN;
   const pathname = usePathname();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartRef = useRef(null); // Untuk mendeteksi klik di luar dropdown
 
-  const cartItems = [
-    { id: 1, name: 'Cokelat Premium', price: 'Rp 25.000', image: '/images/cokelat.png' },
-    { id: 2, name: 'Kaos Limited Edition', price: 'Rp 120.000', image: '/images/kaos.png' },
-    { id: 3, name: 'Sepatu Sneakers', price: 'Rp 350.000', image: '/images/sneakers.png' },
-    { id: 4, name: 'Jam Tangan Sport', price: 'Rp 500.000', image: '/images/watch.png' },
-    { id: 5, name: 'Buku Inspiratif', price: 'Rp 85.000', image: '/images/book.png' },
-    { id: 6, name: 'Headphone Wireless', price: 'Rp 750.000', image: '/images/headphone.png' }
-  ];
+  const keranjangsList = useSelector((state) => state.keranjangs?.keranjangsList);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const displayedItems = cartItems.slice(0, 4);
-  const remainingItemsCount = cartItems.length - displayedItems.length;
+  const displayedItems = keranjangsList.slice(0, 4);
+  const remainingItemsCount = keranjangsList?.length - displayedItems?.length;
+
+  const fetchKeranjangs = async () => {
+    setIsLoading(true);
+    await dispatch(getListKeranjangs());
+    setIsLoading(false);
+  };
 
   // Menutup dropdown saat klik di luar area cart
   useEffect(() => {
+    fetchKeranjangs();
     const handleClickOutside = (event) => {
       if (cartRef.current && !cartRef.current.contains(event.target)) {
         setIsCartOpen(false);
@@ -67,7 +72,7 @@ const Index = () => {
                 <Link className={`nav-link ${pathname === '/keranjang' ? 'selected' : ''}`} href="">
                   <span className="cart-icon">🛒</span>
                 </Link>
-                <span className="favorite-counter">{cartItems.length}</span>
+                <span className="favorite-counter">{keranjangsList?.length}</span>
 
                 {/* Dropdown Produk dalam Keranjang */}
                 <div
@@ -77,11 +82,21 @@ const Index = () => {
                   <div className="cart-items">
                     {displayedItems.length > 0 ? (
                       displayedItems.map((item) => (
-                        <div className="cart-item" key={item.id}>
-                          <img src={item.image} alt={item.name} className="cart-item-image" />
+                        <div className="cart-item" key={item?.id}>
+                          <img src={item.images} alt={item.name} className="cart-item-image" />
                           <div className="cart-item-info">
                             <p className="cart-item-name">{item.name}</p>
-                            <p className="cart-item-price">{item.price}</p>
+                            <h4 className="cart-item-price">
+                              <small>Rp</small> {item.variant?.harga?.toLocaleString('id-ID')}{' '}
+                              <small
+                                style={{
+                                  textDecoration: 'line-through',
+                                  color: 'rgb(160, 160, 160)'
+                                }}
+                              >
+                                {item.variant?.harga_normal?.toLocaleString('id-ID')}
+                              </small>
+                            </h4>
                           </div>
                         </div>
                       ))
@@ -99,9 +114,12 @@ const Index = () => {
                     )}
                   </div>
 
-                  {remainingItemsCount > 0 && (
-                    <div className="cart-footer">
-                      <p className="remaining-items">{remainingItemsCount} Produk Lainnya</p>
+                  <div className="cart-footer">
+                    <p className="remaining-items">
+                      {remainingItemsCount > 0 ? `${remainingItemsCount} Produk Lainnya` : ''}
+                    </p>
+
+                    {keranjangsList?.length > 0 && (
                       <Link
                         href="/keranjang"
                         className="view-cart-button"
@@ -109,8 +127,8 @@ const Index = () => {
                       >
                         Lihat Keranjang
                       </Link>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </li>
             )}

@@ -41,12 +41,12 @@ export default function RootLayout({ children }) {
         image={metadata.openGraph.images}
       />
       <body>
-        <Navbar />
         <ReduxProvider>
+          <Navbar />
           <Suspense fallback={<Loading />}>{children}</Suspense>
+          <Footer />
           <FloatingWhatsApp />
         </ReduxProvider>
-        <Footer />
       </body>
     </html>
   );
