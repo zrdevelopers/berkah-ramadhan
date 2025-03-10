@@ -1,14 +1,20 @@
 'use client';
-// import { useContext } from "react";
-// import { BookmarkContext } from "../contexts/BookmarkContext";
-// import RecipeList from "../components/RecipeList";
-// import noDataImg from "../images/no-data.svg";
+import Link from 'next/link';
 
 const KeranjangPage = () => {
   return (
     <section className="bookmarks">
       <div className="container">
-        Keranjang Belanja
+        {/* <h2 className="heading-2">
+          Produk di Keranjangmu{" "}
+          <span className="amount">(0)</span>
+        </h2> */}
+        <div style={{ textAlign: 'center', marginTop: '10rem' }}>
+          <h3 style={{ marginTop: '3rem', marginBottom: '2rem' }}>Oops! Keranjangmu masih kosong.</h3>
+          <Link href="/" className="shop-now-button" onClick={() => setIsCartOpen(false)}>
+            Mulai Belanja
+          </Link>
+        </div>
         {/* {recipes.length > 0 ? (
           <>
             <h2 className="heading-2">

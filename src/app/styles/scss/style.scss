@@ -133,7 +133,7 @@ header {
 
 .navbar .nav-list {
   display: flex;
-  align-items: center;// baseline;
+  align-items: center; // baseline;
 }
 
 .navbar .nav-item {
@@ -158,8 +158,8 @@ header {
   color: var(--white);
   font-size: 1.4rem;
   font-weight: 600;
-  width: 2.2rem;// 2rem;
-  height: 2.2rem;// 2rem;
+  width: 2.2rem; // 2rem;
+  height: 2.2rem; // 2rem;
   border-radius: 50%;
   display: inline-flex;
   justify-content: center;
@@ -615,7 +615,7 @@ header {
   }
 
   .navbar .nav-item {
-    margin-left: 2rem;//2.5rem;
+    margin-left: 2rem; //2.5rem;
   }
 
   header .nav-link {
